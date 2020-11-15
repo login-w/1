@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/css/me.css}">
+</head>
+<body>
+<!--导航-->
+<!--m-shadow-small：给导航条加阴影-->
+<!--inverted：把当前导航条的颜色与页面颜色相反-->
+<!--attached：紧贴上面内容-->
+<!--segment：把当前部分看成一个版块-->
+<nav class="bg-color gird-header"   th:fragment="topbar" style="opacity: 0.7" >
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui teal header item">Blog</h2>
+            <a href="#" th:href="@{/page/index}" class=" m-item item m-mobile-hide" th:class="${baruri=='main'? 'active m-item item m-mobile-hide' :'m-item item m-mobile-hide'}"> <i class="home icon"></i> 首页</a>
+            <a href="#" th:href="@{/page/type}" class="m-item item m-mobile-hide" th:class="${baruri=='type'? 'active m-item item m-mobile-hide':'m-item item m-mobile-hide' }"> <i class="tasks icon"></i> 分类</a>
+            <a href="#" th:href="@{/page/tag}" class="m-item item m-mobile-hide" th:class="${baruri=='tag'?'active m-item item m-mobile-hide':'m-item item m-mobile-hide'}"> <i class="tags icon"></i> 标签</a>
+            <a href="#" th:href="@{/page/archives}" class="m-item item m-mobile-hide" th:class="${baruri=='archives'?'active m-item item m-mobile-hide':'m-item item m-mobile-hide'}"> <i class="clone icon"></i> 归档</a>
+            <a href="#" th:href="@{/page/about}" class="m-item item m-mobile-hide" th:class="${baruri=='about'?'active m-item item m-mobile-hide':'m-item item m-mobile-hide'}"> <i class="heart icon"></i> 关于我</a>
+            <div class="right m-item item m-mobile-hide">
+                <form name="search" action="#" th:action="@{/page/search}" method="post" target="_blank">
+                    <div class="ui inverted icon transparent input">
+                        <input type="text" name="title" placeholder="搜索">
+                        <i onclick="document.forms['search'].submit()" class="search icon" ></i>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+        <a href="#" class="menu toggle ui black icon button m-right-top m-mobile-show">
+            <i class="sidebar icon"></i>
+        </a>
+    </div>
+</nav>
+
+
+<!--尾部-->
+<footer class="ui inverted vertical segment m-padded-tb-massive" th:fragment="footbar" style="opacity: 0.7">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided stackable grid">
+            <div class="four wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item"><i class="envelope square icon"></i>:1162532214@qq.com</a>
+                    <a href="#" class="item"><i class="qq icon"></i>:1162532214</a>
+                    <a href="#" class="item"><i class="wechat icon"></i>:wsx1162532214</a>
+                </div>
+
+            </div>
+            <div class="four wide column">
+                有待开发中.....
+            </div>
+            <div class="four wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <p><b>关注一下公众号呗</b></p>
+                        <img src="../../static/images/myPop.jpg" th:src="@{/images/myPop.jpg}" class="ui rounded image" alt="" style="width: 130px">
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">wsx</h4>
+                <p class="m-text-thin m-text-spaced m-opacity-mini">这是我的个人博客，我会在这里分享一些我自己的所学所得，及学习心得，希望可以对你有些许帮助</p>
+            </div>
+        </div>
+
+        <div class="ui inverted section divider">
+            <br>
+            <p class="m-text-thin m-text-spaced m-opacity-mini">copyright © 2016-2017 designed by wsx</p>
+        </div>
+
+    </div>
+
+</footer>
+<script>
+
+</script>
+
+
+
+</body>
+</html>

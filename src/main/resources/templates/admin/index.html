@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理页</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/css/me.css}">
+</head>
+<body>
+    <div th:replace="~{admin/bar::topbar(baruri='main')}"></div>
+
+
+<!--中间体-->
+<div class="m-container m-padded-tb-big">
+    <div class="ui  container">
+      <div class="ui success large message">
+          <h3>hi,</h3>
+          <p>[[${session.user.username}]]，欢迎来到博客管理后台！</p>
+      </div>
+        <img src="https://unsplash.it/1000/600?image=1025" class="rounded bordered image ui fluid " border="1px solid">
+
+    </div>
+</div>
+
+<br><br>
+
+
+<!--尾部-->
+    <div th:replace="~{admin/bar::footbar}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-show')
+    })
+</script>
+<script>
+    $('.ui.dropdown')
+        .dropdown({
+            on:'hover'
+        });
+</script>
+</body>
+</html>

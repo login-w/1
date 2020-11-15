@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分类</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/css/me.css}">
+</head>
+<body>
+<!--导航-->
+<div th:replace="~{page/PageBar::topbar(baruri='main')}"></div>
+<br><br><br><br>
+
+
+<!--中间体-->
+<div class=" m-container-small m-padded-tb-big">
+
+    <div class="ui container">
+        <!--首部-->
+        <div class="ui top attached segment">
+            <div class="ui middle aligned two column grid">
+                <div class="column">
+                    <h3 class="ui teal header ">查询结果</h3>
+                </div>
+                <div class="right aligned column">
+                    查询到文章数为 <h2 class="ui orange header m-inline-block m-text-thin" th:text="${pageInfo.total}"> 5 </h2> 篇
+                </div>
+            </div>
+        </div>
+
+        <!--标签对应的文章-->
+        <div class="ui attached  segment" th:each="blog : ${blogs}">
+            <div class="ui  vertical segment m-padded-tb-large m-padded-lr-mini m-mobile-lr-clear">
+                <div class="ui middle aligned mobile reversed stackable grid">
+                    <!--左侧文章栏-->
+                    <div class="eleven wide column">
+                        <h3 class="ui header" ><a class="m-black" th:href="@{/page/blog}+${blog.id}" th:text="${blog.title}">人生如过客</a></h3>
+                        <p class="m-text" th:text="|${blog.description}....|">过客于尘世间，人生的浮华，繁华的都市街道穿行的人流,
+                            双眸中我看见了,人们在过着的日子里，似流水上漂浮,焦虑、
+                            徘徊、失意、喜悦、成功的心情挂在脸上,在期盼中等待，
+                            去追寻那人生的归宿和驿站。
+                        </p>
+                        <div class="ui stackable grid">
+                            <div class="eleven wide column">
+                                <div class="ui min link list horizontal ">
+                                    <div class="item">
+                                        <img src="https://unsplash.it/100/100?image=1077" alt="" th:src="@{${blog.user.avatar}}" class="ui avatar image">
+                                        <div class="content"><a href="#" class="header" th:text="${blog.user.nickName}">智哲旺</a></div>
+                                    </div>
+                                    <div class="item" >
+                                        <i class="calendar icon"></i><span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2020-11-06</span>
+                                    </div>
+                                    <div class="item" >
+                                        <i class="eye icon"></i><span th:text="${blog.views}">235</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" right aligned five wide column">
+                                <a href="#" target="_blank" th:href="@{/page/type}+${blog.type.id}" class="ui teal basic label m-padded-tiny m-text-thin" th:text="${blog.type.name}">人生哲理</a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--右侧图片栏-->
+                    <div class="five wide column m-padded-tb-large">
+                        <a href="#" target="_blank" th:href="@{/page/blog}+${blog.id}">
+                            <img src="https://unsplash.it/800/550?image=1035" th:src="@{${blog.firstPicture}}" alt="" class="ui rounded image">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--bottom-->
+        <div class="ui bottom segment attached">
+            <div class="ui middle aligned two column grid">
+                <div class="column" th:if="${pageInfo.hasPreviousPage}">
+                    <a href="#" th:href="@{/page/index}+${prePage}" >上一页</a>
+                </div>
+                <div class="right aligned column" th:if="${pageInfo.hasNextPage}">
+                    <a href="#" th:href="@{/page/index}+${nextPage}">下一页</a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<div class="m-padded m-fixed m-right-bottom">
+    <div id="toTopBtn"  class="ui icon button"><i class="chevron up icon"></i></div>
+</div>
+<br><br>
+
+
+<!--尾部-->
+<div th:replace="~{page/PageBar::footbar}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-show')
+    })
+    $("#toTopBtn").click(function () {
+        $(window).scrollTo(0,500);
+    })
+</script>
+
+</body>
+</html>

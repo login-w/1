@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+  mvc:
+    formcontent:
+      putfilter:
+        enabled: true
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#      use-new-id-generator-mappings: false
+#    show-sql: true
+#    generate-ddl: true
+logging:
+  level:
+    root: info
+    com.lrm: debug
+  file:
+    name: log/blog-dev
+mybatis:
+  typeAliasesPackage: com.wsx.blog.entity
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+

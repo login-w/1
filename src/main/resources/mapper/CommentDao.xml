@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wsx.blog.dao.CommentDao">
+    <!--
+        List<Comment> listCommentByBlogId(int blogId);
+    
+        void saveComment(Comment comment);
+    -->
+    
+    <resultMap id="comment" type="com.wsx.blog.entity.Comment">
+        <association property="blog" column="blog_id"
+                     select="com.wsx.blog.dao.BlogDao.getById"></association>
+        <association property="parentComment" column="parent_comment_id"
+                     select="com.wsx.blog.dao.CommentDao.getById"></association>
+    </resultMap>
+
+    <select id="getById" resultMap="comment">
+        select * from t_comment where id=#{id}
+    </select>
+
+    <select id="listCommentByBlogId" resultMap="comment">
+        SELECT * from t_comment where blog_id=#{blogId}
+    </select>
+
+    <insert id="saveComment" parameterType="com.wsx.blog.entity.Comment">
+        insert into t_comment (avatar,content,create_time,email,nick_name,blog_id,parent_comment_id,owner)
+        values(#{avatar},#{content},#{createTime},#{email},#{nickName},#{blog.id},#{parentComment.id},#{owner})
+
+    </insert>
+
+    <!--
+    List<Comment> getParentComments(int blogId);
+
+    List<Comment> getChildComments(int blogId);
+    -->
+
+    <select id="getParentComments" resultMap="comment">
+        select * from t_comment where blog_id=#{blogId} and parent_comment_id is null;
+    </select>
+
+    <select id="getChildComments" resultMap="comment">
+        select * from t_comment where blog_id=#{blogId} and parent_comment_id is NOT NULL;
+    </select>
+
+
+</mapper>
