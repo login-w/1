@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.wsx.blog.dao.BlogDao">
+    
+    
+    <select id="getById" resultMap="blog">
+        select * from t_blog where id=#{id}
+    </select>
+    <resultMap id="blog" type="com.wsx.blog.entity.Blog">
+        <association property="user" column="user_id" select="com.wsx.blog.dao.UserDao.getById"></association>
+        <association property="type" column="type_id" select="com.wsx.blog.dao.TypeDao.getById"></association>
+    </resultMap>
+
+
+    <select id="getByTypeId" resultMap="blog">
+            select * from t_blog where type_id=#{type_id}
+    </select>
+
+    <select id="getAllBlog" resultMap="blog">
+        SELECT * FROM t_blog
+    </select>
+
+    <update id="updateView" parameterType="com.wsx.blog.entity.Blog">
+      UPDATE t_blog set views=#{views} where id=#{id}
+    </update>
+
+
+
+    <!--按照查询条件进行查询博客-->
+    <select id="getBlogBySearch" parameterType="com.wsx.blog.query.SearchBlog" resultMap="blog">
+        <bind name="pattern" value="'%' + title + '%'" />
+        select b.*,t.name from t_blog b ,t_type t
+        <where>
+            <if test="1 == 1">
+                b.type_id = t.id
+            </if>
+            <if test="typeId != null">
+                and b.type_id = #{typeId}
+            </if>
+            <if test="title != null">
+                and b.title like #{pattern}
+            </if>
+
+        </where>
+    </select>
+    <select id="getBlogBySearchPage" parameterType="com.wsx.blog.query.SearchBlog" resultMap="blog">
+        <bind name="pattern" value="'%' + title + '%'" />
+        select * from t_blog  b where (b.title like #{pattern} or b.content like #{pattern})
+    </select>
+
+    <select id="getRecomments" resultMap="blog">
+         SELECT * FROM (SELECT * FROM t_blog  ORDER BY views DESC) t WHERE t.recommed='1' and t.published=1 LIMIT 4 ;
+    </select>
+
+
+    <update id="updateBlog" parameterType="com.wsx.blog.entity.Blog">
+        update t_blog set appreciation=#{appreciation},commentabled=#{commentabled},
+        content=#{content},first_picture=#{firstPicture},
+        published=#{published},recommed=#{recommed},title=#{title},
+        update_time=#{updateTime},flag=#{flag},description=#{description}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteBlog">
+        delete from t_blog where id=#{id}
+    </delete>
+    <insert id="saveBlog"  parameterType="com.wsx.blog.entity.Blog">
+        insert into t_blog
+        (title,content,appreciation,commentabled,published,recommed,type_id,create_time,views,update_time,flag,first_picture,user_id,description)
+        values
+        (#{title},#{content},#{appreciation},#{commentabled},#{published},#{recommed},#{type.id},#{createTime},#{views},#{updateTime},#{flag},#{firstPicture},#{user.id},#{description})
+    </insert>
+    <!--   parameterType="com.wsx.blog.entity.Blog"   -->
+    <insert id="saveBlogAndTag"  parameterType="com.wsx.blog.entity.Blog">
+       INSERT INTO t_blog_tags
+       VALUES (#{id},#{tag_id})
+
+    </insert>
+
+    <select id="getTags" resultType="com.wsx.blog.entity.Tag">
+        SELECT tags_id from t_blog_tags where blogs_id=#{id}
+    </select>
+
+
+
+
+    
+</mapper>

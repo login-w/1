@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/css/me.css}">
+
+</head>
+<body>
+<!--导航-->
+<div th:replace="~{page/PageBar::topbar(baruri='about')}"></div>
+<br><br><br><br>
+
+<!--中间体-->
+<div class=" m-container m-padded-tb-big" >
+    <div ui container>
+        <div class="ui stackable grid">
+            <div class="eleven wide column" >
+                <div class="ui segment">
+                    <img class="rounded image ui" border="1px solid" src="https://unsplash.it/800/600?image=1035"  >
+                </div>
+
+            </div>
+            <div class="five wide column" style="opacity: 0.8">
+                <div class="ui attached segment">
+                    <i class="heart icon" style="color: #005cbf"></i>关于我
+                </div>
+                <div class="ui attached segment">
+                    <p></p>
+                    <p>热爱折腾，热爱挑战，</p>
+                </div>
+                <!--爱好标签-->
+                <div class="ui attached segment ">
+                    <div class="ui orange label m-margin-tb-tiny ">编程</div>
+                    <div class="ui blue  label m-margin-tb-tiny">写作</div>
+                    <div class="ui yellow  label m-margin-tb-tiny ">游戏</div>
+                    <div class="ui red  label m-margin-tb-tiny">音乐</div>
+                    <div class="ui violet  label m-margin-tb-tiny ">动漫</div>
+                    <div class="ui pink  label m-margin-tb-tiny">跑酷</div>
+                </div>
+                <!--技能标签-->
+                <div class="ui attached segment">
+                    <div class="ui teal label m-margin-tb-tiny ">java</div>
+                    <div class="ui olive  label m-margin-tb-tiny">mysql</div>
+                    <div class="ui green  label m-margin-tb-tiny ">redis</div>
+                    <div class="ui blue  label m-margin-tb-tiny">spring</div>
+                    <div class="ui purple  label m-margin-tb-tiny ">springmvc</div>
+                    <div class="ui orange label m-margin-tb-tiny">mybatis</div>
+                    <div class="ui brown  label m-margin-tb-tiny">springboot</div>
+                    <div class="ui black  label m-margin-tb-tiny ">jvm</div>
+                    <div class="ui grey  label m-margin-tb-tiny">多线程</div>
+                </div>
+                <div class="ui attached segment">
+                    <a class="ui circular icon button"><i class="github icon"></i></a>
+                    <a class="ui wx circular icon button"><i class="weixin icon"></i></a>
+                    <a class="ui qq circular icon button"><i class="qq icon"></i></a>
+                    <a class="ui pop circular icon button"><i class="comments icon"></i></a>
+                </div>
+
+
+                <div class="ui wx flowing popup  transition hidden " align="center">
+                    <img src="../../static/images/wx.png" th:src="@{/images/wx.png}" class="ui rounded bordered image" style="width: 120px">
+                    <div style="color: #71dd8a">weChat</div>
+                </div>
+                <div class="ui qq flowing popup  transition hidden " align="center">
+                    <img src="../../static/images/qq.png" th:src="@{/images/qq.png}" class="ui rounded bordered image" style="width: 120px">
+                    <div style="color: #71dd8a">QQ</div>
+                </div>
+                <div class="ui pop flowing popup  transition hidden " align="center">
+                    <img src="../../static/images/myPop.jpg" th:src="@{/images/myPop.jpg}" class="ui rounded bordered image" style="width: 120px">
+                    <div style="color: #71dd8a">公众号</div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="m-padded m-fixed m-right-bottom">
+    <div id="toTopBtn"  class="ui icon button"><i class="chevron up icon"></i></div>
+</div>
+
+
+<!--尾部-->
+<div th:replace="~{page/PageBar::footbar}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-show')
+    })
+
+    $(".qq").popup({
+        popup: $('.qq.popup'),
+        position: 'bottom center'
+    })
+    $(".wx").popup({
+        popup: $('.wx.popup'),
+        position: 'bottom center'
+    })
+    $(".pop").popup({
+        popup: $('.pop.popup'),
+        position: 'bottom center'
+    })
+    $("#toTopBtn").click(function () {
+        $(window).scrollTo(0,500);
+    })
+
+</script>
+
+</body>
+</html>

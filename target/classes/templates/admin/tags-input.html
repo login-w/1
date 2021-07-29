@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布页</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/css/me.css}">
+    <link rel="stylesheet" href="../../static/lib/editorMd/css/editormd.min.css" th:href="@{/lib/editorMd/css/editormd.min.css}">
+</head>
+<body>
+<!--导航-->
+<!--m-shadow-small：给导航条加阴影-->
+<!--inverted：把当前导航条的颜色与页面颜色相反-->
+<!--attached：紧贴上面内容-->
+<!--segment：把当前部分看成一个版块-->
+<div th:replace="~{admin/bar::topbar(baruri='tags')}"></div>
+
+
+<!--中间体-->
+<div class="m-container m-padded-tb-big">
+    <div class="ui container">
+        <form action="#" method="post" th:action="@{/admin/addTag}" class="ui form">
+            <input name="_method" value="put" type="hidden" th:if="${tag!=null}">
+            <input type="hidden" name="id"  th:if="${tag!=null}" th:value="${tag.id}">
+
+
+
+
+            <div class="required field">
+                <div class="ui left labeled input">
+                    <input type="hidden" value="标签">
+                    <label class="ui teal basic label ">名称</label>
+                    <input type="text" name="name" placeholder="名称" th:value="${tag!=null}?${tag.name}">
+                </div>
+            </div>
+            <div class="ui error message"></div>
+
+            <div class="ui right aligned container ">
+                <button  class="ui button" onclick="window.history.go(-1)">返回</button>
+                <button  class="ui submit teal button">提交</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<br><br>
+
+
+<div th:replace="~{admin/bar::footbar}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+<script>
+
+
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-show')
+    })
+</script>
+<script>
+    $('.ui.dropdown')
+        .dropdown({
+            on:'hover'
+        });
+    $('.ui.form').form({
+        fields:{
+            name:{
+                identifier:'name',
+                rules:[
+                    {
+                        type:'empty',
+                        prompt:'类别 :请输入类别名称'
+                    }
+                ]
+            }
+        }
+    });
+
+</script>
+
+
+
+</body>
+</html>

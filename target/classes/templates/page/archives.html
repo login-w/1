@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>归档</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/css/me.css}">
+    <link rel="stylesheet" href="../../static/css/timeline.css" th:href="@{/css/timeline.css}">
+
+</head>
+<body>
+<!--导航-->
+<div th:replace="~{page/PageBar::topbar(baruri='archives')}"></div>
+<br><br>
+
+<!--</div>-->
+<div class="doc-container m-padded-tb-massive m-opacity-mini" id="doc-container">
+    <th:block >
+        <section class="timeline">
+            <ul>
+                <li  th:each="blog : ${blogs}">
+                    <!--<img src="https://unsplash.it/200/150?image=1035" style="max-width: 100%; max-height: 100%;" class="ui rounded image">-->
+                    <div>
+
+                        <time th:text="${#dates.format(blog.createTime,'yyyy-MM-dd')}">2020/01/01</time>
+
+                        <div class="scientist">
+                            <a href="#" target="_blank" th:href="@{/page/blog}+${blog.id}">
+                                <h3 class="state" style="text-align:center;font-size: 16px;color: #000;" th:text="${blog.title}">文章标题</h3>
+                            </a>
+
+                            <!--&lt;!&ndash;<a>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<img src="https://unsplash.it/800/600?image=1035" th:src="@{${blog.firstPicture}}"  alt="" class="ui rounded image">&ndash;&gt;-->
+                            <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<img src="https://unsplash.it/800/600?image=1032" th:src="@{${blog.firstPicture}}">&ndash;&gt;-->
+
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </th:block>
+</div>
+<div class="m-padded m-fixed m-right-bottom">
+    <div id="toTopBtn"  class="ui icon button"><i class="chevron up icon"></i></div>
+</div>
+<br><br>
+
+
+<!--尾部-->
+<div th:replace="~{page/PageBar::footbar}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+<script src="../../static/js/timeline.js" th:src="@{/js/timeline.js}"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-show')
+    })
+    $("#toTopBtn").click(function () {
+        $(window).scrollTo(0,500);
+    })
+
+</script>
+
+</body>
+</html>

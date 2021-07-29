@@ -34,7 +34,7 @@ public class PageBlogController {
     @Autowired
     private CommentServiceImpl commentService;
 
-    @RequestMapping("/index")
+    @GetMapping("/index")
     public String page(Model model){
         String sortBlog="update_time"+" desc";
         PageHelper.startPage(1,5,sortBlog);
@@ -85,7 +85,7 @@ public class PageBlogController {
         return "page/blog";
     }
 
-    @RequestMapping("/type")
+    @GetMapping("/type")
     public String type(Model model){
         List<Type> types = typeService.getAllType();
         model.addAttribute("types",types);
@@ -148,25 +148,25 @@ public class PageBlogController {
 
 
 
-    @RequestMapping("/archives")
+    @GetMapping("/archives")
     public String archives(Model model){
         String sort="create_time"+" desc";
         PageHelper.orderBy(sort);
         List<Blog> blogs = blogService.getAllBlog();
         model.addAttribute("blogs",blogs);
-        return "/page/archives";
+        return "page/archives";
 
     }
 
 
-    @RequestMapping("/about")
+    @GetMapping("/about")
     public String about(){
-        return "/page/about";
+        return "page/about";
     }
 
-    @RequestMapping("/tag")
+    @GetMapping("/tag")
     public String tag(){
-        return "/page/tags";
+        return "page/tags";
     }
 
 

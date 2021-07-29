@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理页</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/css/me.css}">
+</head>
+<body>
+<!--导航-->
+<!--m-shadow-small：给导航条加阴影-->
+<!--inverted：把当前导航条的颜色与页面颜色相反-->
+<!--attached：紧贴上面内容-->
+<!--segment：把当前部分看成一个版块-->
+
+<div th:replace="~{admin/bar::topbar(baruri='blogs')}"></div>
+
+<!--中间体-->
+<div class="m-container m-padded-tb-big">
+    <div class="ui  container">
+        <div  class="ui secondary segment form">
+            <input type="hidden" name="page">
+            <div class="inline fields">
+                <div class="field">
+                    <input type="text" name="title" placeholder="标题">
+                </div>
+                <div class="field">
+                    <div class="ui labeled action input">
+                        <div class="ui type  selection dropdown">
+                            <input type="hidden" name="typeId">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">分类</div>
+                            <div class="menu">
+                                <div th:each="type :${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">错误日志</div>
+                            </div>
+                        </div>
+                        <!--/////////////////////-->
+                        <button id="clear-btn" class="ui compact button">clear</button>
+
+                    </div>
+
+                </div>
+                <div class="field">
+                    <div class="ui checkbox">
+                        <input type="checkbox" id="recommend" name="recommend">
+                        <label for="recommend">推荐</label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <button type="button" id="search-btn" class="ui tiny teal basic button"><i class="search icon"></i>查询</button>
+                </div>
+            </div>
+        </div>
+        <div id="table-container" >
+            <table class="ui striped table teal" th:fragment="blogList">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>标题</th>
+                    <th>类型</th>
+                    <th>推荐</th>
+                    <th>状态</th>
+                    <th>更新时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="blog,iterstat : ${blogs}">
+                    <td th:text="${iterstat.count}">1</td>
+                    <td th:text="${blog.title}">John</td>
+                    <td th:text="${blog.type.name}">java</td>
+                    <td th:text="${blog.recommed} ? '是':'否'">是</td>
+                    <td th:text="${blog.published} ? '发布':'草稿'">草稿</td>
+                    <td th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2020-10-20</td>
+                    <td >
+                        <a href="#" th:href="@{/admin/updateBlog}+${blog.id}" class="ui tiny teal button ">编辑</a>
+                        <a href="#" th:href="@{/admin/deleteBlog}+${blog.id}" onclick="return confirm('确定要删除该文章吗？')" class="ui tiny red button ">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="7">
+                        <!---->
+                        <div class="ui inverted divided stackable grid">
+                            <div class="three wide column" align="center">
+                                <div class="ui mini pagination " th:if="${pageInfo.hasPreviousPage}" >
+                                    <!--<a class="item" th:if="${pageInfo.hasPreviousPage}" th:href="@{/admin/blogs}+${pageInfo.prePage}">上一页</a>-->
+                                    <input type="hidden" name="preNum" th:value="${pageInfo.prePage}" >
+                                    <button class="ui teal basic mini button" type="button" id="preBtn" th:id="preBtn">上一页</button>
+                                </div>
+                            </div>
+
+                            <div class="ten wide column" align="center">
+                                <p>第 <span th:text="${pageInfo.pageNum}">1</span> 页，共 <span th:text="${pageInfo.pages}">3</span> 页，有 <span th:text="${pageInfo.total}">13</span> 篇文章</p>
+                            </div>
+
+                            <div class="three wide column" align="center">
+                                <div class="ui mini pagination " th:if="${pageInfo.hasNextPage}">
+                                    <input type="hidden" name="nextNum" th:value="${pageInfo.nextPage}" >
+                                    <button class="ui teal basic mini button" type="button" id="nextBtn" th:id="nextBtn">下一页</button>
+                                    <!--<a class="item" th:if="${pageInfo.hasNextPage}" th:href="@{/admin/blogs}+${pageInfo.nextPage}" >下一页</a>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div align="center">
+                            <a href="#" th:href="@{/admin/saveBlog}">
+                                <button type="button" class="ui  blue button m-mobile-wide m-margin-top"><i class="pencil icon"></i>添加</button>
+                            </a>
+                        </div>
+
+
+                        <!--<div class="ui mini pagination menu" th:if="${pageInfo.pageNum>1}">-->
+                            <!--<a class="item" th:if="${pageInfo.hasPreviousPage}" th:href="@{/admin/blogs}+${pageInfo.prePage}">上一页</a>-->
+                            <!--<a class="item" th:if="${pageInfo.hasNextPage}" th:href="@{/admin/blogs}+${pageInfo.nextPage}" >下一页</a>-->
+                        <!--</div>-->
+                        <!--<a href="#" th:href="@{/admin/saveBlog}" class="ui right floated mini blue button">添加</a>-->
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+
+            <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+                <i class="close icon"></i>
+                <div class="" th:text="${message}">提示：操作成功！</div>
+            </div>
+        </div >
+
+
+
+
+    </div>
+</div>
+
+<br><br>
+
+
+<!--尾部-->
+<div th:replace="~{admin/bar::footbar}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-show')
+    })
+</script>
+<script>
+    $('.ui.dropdown')
+        .dropdown({
+            on:'hover'
+        });
+    //------------------------------------
+
+    //消息提示关闭初始化
+    $('.message .close')
+        .on('click', function () {
+            $(this)
+                .closest('.message')
+                .transition('fade');
+        });
+
+    $('#clear-btn')
+        .on('click', function() {
+            $('.ui.type.dropdown')
+                .dropdown('clear')
+            ;
+        });
+    function page(obj) {
+        $("[name='page']").val($(obj).data("page"));
+        loaddata();
+    }
+    $("#search-btn").click(function () {
+        $("[name='page']").val(0);
+        loaddata();
+    });
+
+    //ajax发送请求
+    function loaddata() {
+        $("#table-container").load(/*[[@{/admin/blogs/search}]]*/"/admin/blogs/search",{
+            title : $("[name='title']").val(),
+            typeId : $("[name='typeId']").val(),
+            page : $("[name='page']").val()
+        });
+    }
+    //ajax发送请求
+    function prePage() {
+        $("#table-container").load(/*[[@{/admin/blogs/search}]]*/"/admin/blogs/search",{
+            title : $("[name='title']").val(),
+            typeId : $("[name='typeId']").val(),
+            page : $("[name='page']").val(),
+            num : $("[name='preNum']").val()
+        });
+    }
+    function nextPage() {
+        $("#table-container").load(/*[[@{/admin/blogs/search}]]*/"/admin/blogs/search",{
+            title : $("[name='title']").val(),
+            typeId : $("[name='typeId']").val(),
+            page : $("[name='page']").val(),
+            num : $("[name='nextNum']").val()
+        });
+    }
+    $(document).on("click", "#preBtn", function() {
+        prePage();
+    })
+    $(document).on("click", "#nextBtn", function() {
+        nextPage();
+    })
+
+
+
+
+
+</script>
+</body>
+</html>
